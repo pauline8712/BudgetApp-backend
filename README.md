@@ -33,3 +33,84 @@ dotnet run --project BudgetApp.API
 ```
 
 Swagger UI: `https://localhost:7057/swagger` (or `http://localhost:5123/swagger`).
+
+---
+
+## JWT Authentication
+
+The API uses JWT (JSON Web Token) for authentication. Protected endpoints require a valid token in the `Authorization` header.
+
+### Endpoints
+
+| Method | URL | Description |
+|---|---|---|
+| POST | `/api/auth/register` | Register a new user |
+| POST | `/api/auth/login` | Login and receive a JWT token |
+
+### Register
+
+```
+POST http://localhost:5123/api/auth/register
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "YourPassword123!"
+}
+```
+
+Response:
+```json
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+  "email": "user@example.com",
+  "role": "User"
+}
+```
+
+### Login
+
+```
+POST http://localhost:5123/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "password": "YourPassword123!"
+}
+```
+
+### Using the token
+
+Copy the token from the response and include it in the `Authorization` header for all protected requests:
+
+```
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+### Protected endpoints
+
+All budget, category and transaction endpoints require a valid token:
+- `GET /api/categories/{budgetId}` — returns 200 OK with token, 401 Unauthorized without
+
+### Manual test results (Postman)
+
+| Test | Expected | Result |
+|---|---|---|
+| POST /api/auth/register | 200 OK + token | ✅ |
+| POST /api/auth/login | 200 OK + token | ✅ |
+| GET /api/categories/{id} with token | 200 OK | ✅ |
+| GET /api/categories/{id} without token | 401 Unauthorized | ✅ |
+
+### appsettings.json — Jwt section
+
+`appsettings.json` is gitignored (contains secrets). Copy `appsettings.example.json` and fill in your values:
+
+```json
+"Jwt": {
+  "Secret": "YourSecretKeyAtLeast32CharactersLong!",
+  "Issuer": "BudgetApp",
+  "Audience": "BudgetAppUsers",
+  "ExpiresInMinutes": 60
+}
+```
