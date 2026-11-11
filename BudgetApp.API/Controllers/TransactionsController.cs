@@ -1,4 +1,4 @@
-﻿using BudgetApp.Application.Features.Transactions.Commands;
+using BudgetApp.Application.Features.Transactions.Commands;
 using BudgetApp.Application.Features.Transactions.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -123,6 +123,6 @@ public class TransactionsController : ControllerBase
         catch (Exception ex)
         {
             return StatusCode(500, ex.Message);
-         }
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿using BudgetApp.Application.Features.Budgets.Commands;
+using BudgetApp.Application.Features.Budgets.Commands;
 using FluentValidation;
 
 namespace BudgetApp.Application.Features.Budgets.Validators;

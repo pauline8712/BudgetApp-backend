@@ -1,4 +1,4 @@
-﻿namespace BudgetApp.Application.Interfaces;
+namespace BudgetApp.Application.Interfaces;
 
 // Generiskt repository-interface — bas för alla repositories i appen
 // Innehåller gemensamma CRUD-metoder som är identiska i alla repositories

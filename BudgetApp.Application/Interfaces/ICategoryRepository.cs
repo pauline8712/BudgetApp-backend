@@ -1,4 +1,4 @@
-﻿using BudgetApp.Domain.Entities;
+using BudgetApp.Domain.Entities;
 
 namespace BudgetApp.Application.Interfaces;
 

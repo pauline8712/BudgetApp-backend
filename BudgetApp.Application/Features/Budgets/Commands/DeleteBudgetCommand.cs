@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 
 namespace BudgetApp.Application.Features.Budgets.Commands;
 
