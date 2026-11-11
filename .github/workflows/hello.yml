@@ -1,0 +1,22 @@
+name: Hello CI
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "BudgetApp.*/**"
+      - "BudgetApp.sln"
+      - ".github/workflows/hello.yml"
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - uses: actions/checkout@v7
+      - name: Säg hej
+        env:
+          BRANCH: ${{ github.head_ref }}
+        run: echo "Hej från GitHub! Jag kör på branchen $BRANCH"
+      - run: ls -la
