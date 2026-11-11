@@ -1,4 +1,4 @@
-﻿using BudgetApp.Application.Interfaces;
+using BudgetApp.Application.Interfaces;
 using BudgetApp.Domain.Entities;
 using BudgetApp.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;

@@ -1,5 +1,5 @@
-using BudgetApp.Application.Behaviours;
 using AutoMapper;
+using BudgetApp.Application.Behaviours;
 using BudgetApp.Application.Mappings;
 using FluentValidation;
 using MediatR;

@@ -1,4 +1,4 @@
-﻿using BudgetApp.Application.Features.Categories.Commands;
+using BudgetApp.Application.Features.Categories.Commands;
 using BudgetApp.Application.Features.Categories.Queries;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;

@@ -1,4 +1,4 @@
-﻿using BudgetApp.Domain.Entities;
+using BudgetApp.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BudgetApp.Infrastructure.Database;
@@ -34,8 +34,8 @@ public class AppDbContext : DbContext
             .WithMany(c => c.Transactions)
             .HasForeignKey(t => t.CategoryId);
 
-        
-        
+
+
         // Decimal precision
         modelBuilder.Entity<Budget>()
             .Property(b => b.TotalAmount)

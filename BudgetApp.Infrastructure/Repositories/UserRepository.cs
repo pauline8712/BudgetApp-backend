@@ -1,4 +1,4 @@
-﻿using BudgetApp.Application.Interfaces;
+using BudgetApp.Application.Interfaces;
 using BudgetApp.Domain.Entities;
 using BudgetApp.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +19,7 @@ public class UserRepository : BaseRepository<User>, IUserRepository
         return await _context.Users.ToListAsync();
     }
 
-// Hämtar en användare via email — används vid login
+    // Hämtar en användare via email — används vid login
 
     public async Task<User?> GetByEmailAsync(string email)
     {

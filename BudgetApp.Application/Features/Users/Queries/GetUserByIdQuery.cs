@@ -1,4 +1,4 @@
-﻿using BudgetApp.Application.Features.Users.DTOs;
+using BudgetApp.Application.Features.Users.DTOs;
 using MediatR;
 
 namespace BudgetApp.Application.Features.Users.Queries;
