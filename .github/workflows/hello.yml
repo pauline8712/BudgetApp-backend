@@ -1,8 +1,18 @@
 name: Hello CI
-on: [pull_request]
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - "BudgetApp.*/**"
+      - "BudgetApp.sln"
+      - ".github/workflows/hello.yml"
+
 jobs:
   hello:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: .
     steps:
       - uses: actions/checkout@v7
       - name: Säg hej
