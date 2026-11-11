@@ -20,15 +20,9 @@ jobs:
       - name: Restore
         run: dotnet restore
 
-      - name: Restore
-        run: dotnet restore
-
       - name: Kontrollera formatering
         run: dotnet format --verify-no-changes --no-restore
 
-      - name: Build
-        run: dotnet build --no-restore
-        
       - name: Build
         run: dotnet build --no-restore
 
