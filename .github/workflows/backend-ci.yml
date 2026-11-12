@@ -2,6 +2,15 @@ name: Backend CI
 on:
   pull_request:
     branches: [main]
+    paths:
+      - "BudgetApp.*/**"
+      - "BudgetApp.sln"
+      - ".editorconfig"
+      - ".github/workflows/backend-ci.yml"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build-and-test:
