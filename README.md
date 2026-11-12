@@ -1,6 +1,6 @@
 # BudgetApp — Backend API
 
-A **.NET 8 Web API** built with Clean Architecture, CQRS, MediatR, and Entity Framework Core. This is the backend repository for BudgetApp — a fullstack budgeting application where users can manage monthly budgets, categories, and transactions.
+**.NET 8 Web API** built with Clean Architecture, CQRS, MediatR, and Entity Framework Core. This is the backend repository for BudgetApp — a fullstack budgeting application where users can manage monthly budgets, categories, and transactions.
 
 > The frontend repository (React) connects to this API. See the [frontend repo](#) for setup instructions.
 
