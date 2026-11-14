@@ -2,18 +2,40 @@ name: Backend CI
 on:
   pull_request:
     branches: [main]
-    paths:
-      - "BudgetApp.*/**"
-      - "BudgetApp.sln"
-      - ".editorconfig"
-      - ".github/workflows/backend-ci.yml"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  # 1. Kolla om PR:en ändrar backend-kod. (Ersätter "paths" från övning 5.)
+  changes:
+    runs-on: ubuntu-latest
+    outputs:
+      code: ${{ steps.diff.outputs.code }}
+    steps:
+      - name: Hämta koden
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Har backend-kod ändrats?
+        id: diff
+        env:
+          BASE: ${{ github.base_ref }}
+        run: |
+          git diff --name-only "origin/$BASE...HEAD" | tee changed.txt
+          if grep -qE '^(BudgetApp\.[^/]+/|BudgetApp\.sln$|\.editorconfig$|\.github/workflows/backend-ci\.yml$)' changed.txt; then
+            echo "code=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "code=false" >> "$GITHUB_OUTPUT"
+            echo "Ingen backend-kod ändrad – hoppar över bygget."
+          fi
+
+  # 2. Bygg och testa – bara om kod har ändrats.
   build-and-test:
+    needs: changes
+    if: needs.changes.outputs.code == 'true'
     runs-on: ubuntu-latest
     steps:
       - name: Hämta koden
@@ -37,3 +59,19 @@ jobs:
 
       - name: Test
         run: dotnet test --no-build
+
+  # 3. Grinden – körs ALLTID och är den enda kontrollen som är krävd i rulesetet.
+  ci-ok:
+    if: always()
+    needs: [changes, build-and-test]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Samla ihop resultatet
+        env:
+          CHANGES: ${{ needs.changes.result }}
+          BUILD: ${{ needs.build-and-test.result }}
+        run: |
+          echo "changes: $CHANGES, build-and-test: $BUILD"
+          if [ "$CHANGES" != "success" ]; then exit 1; fi
+          if [ "$BUILD" = "failure" ] || [ "$BUILD" = "cancelled" ]; then exit 1; fi
+          echo "Allt grönt (eller inget att bygga) ✅"
