@@ -241,4 +241,29 @@ public class TransactionHandlerTests
         Assert.That(result.Amount, Is.EqualTo(350));
         Assert.That(result.Description, Is.EqualTo("Middag"));
     }
+
+    // BONUS övning 2: det här testet failar MED FLIT för att se att CI blir rött.
+    // Ta bort det igen när du har sett pull requesten bli röd!
+    [Test]
+    public async Task FailingOnPurpose_ShouldTurnPipelineRed()
+    {
+        // Arrange – en kategori med 5000 kr
+        var category = await SeedCategoryAsync(allocatedAmount: 5000);
+        var handler = new CreateTransactionCommandHandler(_transactionRepository, _categoryRepository, _mapper);
+        var command = new CreateTransactionCommand
+        {
+            CategoryId = category.Id,
+            Amount = 500,
+            Type = "Expense",
+            Description = "Mat",
+            Date = DateTime.UtcNow
+        };
+
+        // Act – spara en utgift på 500 kr
+        await handler.Handle(command, CancellationToken.None);
+
+        // Assert – rätt svar är 4500 (5000 - 500), men vi påstår 9999 → testet failar
+        var updated = await _categoryRepository.GetByIdAsync(category.Id);
+        Assert.That(updated!.CurrentBalance, Is.EqualTo(9999));
+    }
 }
